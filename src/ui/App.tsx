@@ -35,6 +35,15 @@ export function App() {
     setStep(0);
   };
 
+  const togglePlayback = () => {
+    if (playing) {
+      setPlaying(false);
+      return;
+    }
+    if (step >= run.events.length) setStep(0);
+    setPlaying(true);
+  };
+
   const shuffle = () => {
     const values = Array.from({ length: 12 }, () => 8 + Math.floor(Math.random() * 76));
     setInput(values);
@@ -61,7 +70,7 @@ export function App() {
           {frame.values.map((value, index) => {
             const state = sorted.has(index) ? "sorted" : compared.has(index) ? "compared" : "idle";
             return (
-              <div className="bar-slot" key={`${index}-${value}`}>
+              <div className="bar-slot" key={index}>
                 <div
                   className={`bar bar--${state}`}
                   style={{ height: `${Math.max(8, (value / max) * 100)}%` }}
@@ -86,7 +95,7 @@ export function App() {
           <button type="button" onClick={() => setStep((value) => Math.max(0, value - 1))} disabled={step === 0}>
             − Step
           </button>
-          <button className="primary" type="button" onClick={() => setPlaying((value) => !value)}>
+          <button className="primary" type="button" onClick={togglePlayback}>
             {playing ? "Pause" : step >= run.events.length ? "Replay" : "Play"}
           </button>
           <button
