@@ -1,8 +1,8 @@
-import type { AlgorithmRun } from "../../core/events.js";
+import type { AlgorithmEvent, AlgorithmRun } from "../../core/events.js";
 
 export function bubbleSort(input: readonly number[]): AlgorithmRun {
   const values = [...input];
-  const events: AlgorithmRun["events"] extends readonly (infer Event)[] ? Event[] : never = [];
+  const events: AlgorithmEvent[] = [];
 
   for (let end = values.length - 1; end > 0; end -= 1) {
     let swapped = false;
