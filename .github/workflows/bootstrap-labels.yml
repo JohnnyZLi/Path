@@ -1,0 +1,48 @@
+name: Bootstrap Fugue labels
+
+on:
+  push:
+    branches:
+      - bootstrap/path-foundation
+    paths:
+      - .github/workflows/bootstrap-labels.yml
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  labels:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Create Fugue workflow labels
+        shell: bash
+        run: |
+          set -euo pipefail
+          label() { gh label create "$1" --color "$2" --description "$3" --force; }
+
+          label "state:ready" "1f883d" "Eligible for Fugue Worker allocation"
+          label "state:working" "0969da" "Claimed and active in the Fugue lifecycle"
+          label "state:blocked" "d73a4a" "Blocked by a durable dependency or condition"
+
+          label "type:feature" "a2eeef" "Feature work"
+          label "type:bug" "d73a4a" "Bug fix"
+          label "type:refactor" "c5def5" "Internal refactor"
+          label "type:docs" "0075ca" "Documentation"
+          label "type:infra" "5319e7" "Infrastructure or workflow"
+          label "type:investigation" "fbca04" "Investigation or research"
+
+          label "priority:p0" "b60205" "Critical priority"
+          label "priority:p1" "d93f0b" "High priority"
+          label "priority:p2" "fbca04" "Normal priority"
+          label "priority:p3" "cfd3d7" "Low priority"
+
+          label "qa:code" "0e8a16" "Explicit additive Code QA requirement"
+          label "qa:security" "b60205" "Explicit additive Security QA requirement"
+          label "qa:visual" "7057ff" "Explicit additive Visual / UX QA requirement"
+
+          label "agent:ready" "1d76db" "Eligible for an autonomous ChatGPT Worker"
+          label "agent:human-required" "f9d0c4" "Requires Human involvement before allocation or completion"
