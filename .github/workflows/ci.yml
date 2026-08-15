@@ -18,15 +18,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install --ignore-scripts
+          cache: npm
+      - run: npm ci
       - run: npm run check
       - run: npm test
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: path-package-lock
-          path: package-lock.json
-          if-no-files-found: error
 
   build:
     runs-on: ubuntu-latest
@@ -35,5 +30,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install --ignore-scripts
+          cache: npm
+      - run: npm ci
       - run: npm run build
